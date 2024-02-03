@@ -1,13 +1,9 @@
-const console = require('./console');
-const consoleInputStream = require('./consoleInputStream');
-const consoleOutputStream = require('./consoleOutputStream');
-
 module.exports = {
-  console,
+  console: require('./console'),
   stream: {
     console: {
-      input: consoleInputStream,
-      output: consoleOutputStream
+      input: require('./consoleInputStream'),
+      output: require('./consoleOutputStream')
     }
   }
 };

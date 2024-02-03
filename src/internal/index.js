@@ -1,9 +1,6 @@
-const input = require('./input');
-const output = require('./output');
-const parseArgs = require('./parseArgs');
-
 module.exports = {
-  input,
-  output,
-  parseArgs
+  input: require('./input'),
+  output: require('./output'),
+  parseArgs: require('./parseArgs'),
+  parseCommand: require('./parseCommand')
 };

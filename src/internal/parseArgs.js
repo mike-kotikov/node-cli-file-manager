@@ -1,6 +1,6 @@
 const process = require('node:process');
 
-const util = require('../helpers/util');
+const normalizeStringValue = require('../helpers/normalizeStringValue');
 
 const ARG_PREFIX_REG_EXP = new RegExp('^--[a-zA-Z].*'); // An argument should start with two dashes, followed by a letter (ex: '--argument')
 
@@ -14,7 +14,7 @@ module.exports = () =>
 
       // Keep only known arguments
       if (SUPPORTED_ARGS.includes(key)) {
-        acc[key] = util.normalizeStringValue(value);
+        acc[key] = normalizeStringValue(value);
       }
 
       return acc;

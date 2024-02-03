@@ -1,11 +1,18 @@
-const process = require('node:process');
 const { homedir } = require('node:os');
-const {} = require('node:fs/promises');
+const process = require('node:process');
 
+const commands = require('../commands');
 const { console } = require('../providers');
-const { input, output, parseArgs } = require('../internal');
+const { input, output, parseArgs, parseCommand } = require('../internal');
 const defaultConfig = require('../config/default');
+
+const InputError = require('./InputError');
 const Logger = require('./Logger');
+const OperationError = require('./OperationError');
+const getErrorMessageByErrorCode = require('../helpers/getErrorMessageByErrorCode');
+
+const availableCommands = Object.keys(commands);
+const knownErrors = [InputError, OperationError];
 
 class FileManager {
   #config;
@@ -37,18 +44,45 @@ class FileManager {
 
   #debug(scope, message) {}
 
+  async #executeCommand(parsedInput) {
+    const { command, args } = parseCommand(parsedInput);
+
+    if (command && !availableCommands.includes(command)) {
+      throw new InputError(`Unsupported command "${command}"`);
+    }
+
+    await commands[command](...args);
+  }
+
   launch() {
     this.#init();
 
     this.#log.info(this.#config.welcomeMessage(this.#args.username));
     this.#log.info(this.#config.statusMessage(this.#cwd));
 
-    input.console.on('data', userInput => {
-      const command = userInput.toString().trim();
-      this.#log.debug(command);
+    input.console.on('data', async userInput => {
+      try {
+        const parsedInput = userInput.toString().trim();
+        this.#debug('Received input:', parsedInput);
 
-      if (command === this.#config.exitCode) {
-        this.exit();
+        if (parsedInput === this.#config.exitCode) {
+          this.exit();
+        }
+
+        await this.#executeCommand(parsedInput);
+      } catch (err) {
+        if (!knownErrors.some(knownError => err instanceof knownError)) {
+          this.#log.error(
+            err.code
+              ? getErrorMessageByErrorCode(err.code)
+              : 'Unexpected Error ocurred: Please verify your input and try again.'
+          );
+          this.#debug('Execution', err.message);
+        } else {
+          this.#log.error(err.message);
+        }
+      } finally {
+        this.#log.info(this.#config.statusMessage(this.#cwd));
       }
     });
   }

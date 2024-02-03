@@ -1,10 +1,4 @@
-/**
- * @function normalizeStringValue - Normalizes string value to specified js type. If no type specified, follows 'auto' strategy.
- * @param {string} value - String value to be normalized.
- * @param {'string'|'number'|'boolean'|'null'|'undefined'|'auto'} [valueType = 'auto'] - Value type (Defaults to 'auto').
- * @returns {string|number|boolean|null|undefined} The normalized value. !IMPORTANT! null value will be returned in case of normalization error.
- */
-const normalizeStringValue = (value, valueType = 'auto') => {
+module.exports = (value, valueType = 'auto') => {
   const normalize = {
     value,
 
@@ -57,14 +51,5 @@ const normalizeStringValue = (value, valueType = 'auto') => {
     }
   };
 
-  try {
-    return normalize[valueType]().value;
-  } catch (err) {
-    // 'Value normalization failed:', err
-    throw err;
-  }
-};
-
-module.exports = {
-  normalizeStringValue
+  return normalize[valueType]().value;
 };

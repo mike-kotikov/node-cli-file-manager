@@ -29,7 +29,7 @@ class Logger {
       this.#log(
         `${[this.scope, this.subScope].filter(Boolean).concat('').join(':')} ${this.#color} ${
           this.#message
-        }`
+        } ${COLORS.RESET}`
       );
     }
   }
