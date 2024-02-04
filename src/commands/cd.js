@@ -1,13 +1,13 @@
-const { chdir, cwd } = require('node:process');
+const { chdir } = require('node:process');
 
 const OperationError = require('../classes/OperationError');
 const getErrorMessageByErrorCode = require('../helpers/getErrorMessageByErrorCode');
 const getAbsolutePath = require('../helpers/getAbsolutePath');
 const isPathOutsideHomeDir = require('../helpers/isPathOutsideHomeDir');
 
-module.exports = path => {
+module.exports = fm => path => {
   try {
-    const absolutePath = getAbsolutePath(cwd(), path);
+    const absolutePath = getAbsolutePath(fm.cwd, path);
 
     if (!isPathOutsideHomeDir(absolutePath)) {
       chdir(absolutePath);

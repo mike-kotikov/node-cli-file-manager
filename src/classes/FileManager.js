@@ -25,7 +25,7 @@ class FileManager {
     this.#config = { ...defaultConfig, ...config };
   }
 
-  get #cwd() {
+  get cwd() {
     return process.cwd();
   }
 
@@ -51,14 +51,14 @@ class FileManager {
       throw new InputError(`Unsupported command "${command}"`);
     }
 
-    await commands[command](...args);
+    await commands[command](Object.freeze(this))(...args);
   }
 
   launch() {
     this.#init();
 
     this.#log.info(this.#config.welcomeMessage(this.#args.username));
-    this.#log.info(this.#config.statusMessage(this.#cwd));
+    this.#log.info(this.#config.statusMessage(this.cwd));
 
     input.console.on('data', async userInput => {
       try {
@@ -82,7 +82,7 @@ class FileManager {
           this.#log.error(err.message);
         }
       } finally {
-        this.#log.info(this.#config.statusMessage(this.#cwd));
+        this.#log.info(this.#config.statusMessage(this.cwd));
       }
     });
   }

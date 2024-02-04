@@ -9,7 +9,6 @@ const COLORS = {
 class Logger {
   #log;
   #color;
-  #message;
 
   scope;
   subScope;
@@ -19,18 +18,18 @@ class Logger {
   }
 
   #logMessage(value) {
-    try {
-      this.#message = JSON.stringify(value, null, 2);
-    } catch (err) {
-      return;
-    }
-
-    if (this.#message.length) {
+    if (value.length) {
       this.#log(
-        `${[this.scope, this.subScope].filter(Boolean).concat('').join(':')} ${this.#color} ${
-          this.#message
-        } ${COLORS.RESET}`
+        `${[this.scope, this.subScope].filter(Boolean).concat('').join(':')} ${
+          this.#color
+        } ${value} ${COLORS.RESET}`
       );
+    }
+  }
+
+  pure(value) {
+    if (value.length) {
+      this.#log(value);
     }
   }
 
