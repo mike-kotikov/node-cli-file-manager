@@ -6,5 +6,6 @@ module.exports = {
   add: require('./add'),
   rn: require('./rn'),
   mv: require('./mv'),
-  cp: require('./cp')
+  cp: require('./cp'),
+  rm: require('./rm')
 };
