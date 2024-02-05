@@ -7,5 +7,6 @@ module.exports = {
   rn: require('./rn'),
   mv: require('./mv'),
   cp: require('./cp'),
-  rm: require('./rm')
+  rm: require('./rm'),
+  hash: require('./hash')
 };
