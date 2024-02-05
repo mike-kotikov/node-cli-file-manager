@@ -10,5 +10,6 @@ module.exports = {
   rm: require('./rm'),
   hash: require('./hash'),
   compress: require('./compress'),
-  decompress: require('./decompress')
+  decompress: require('./decompress'),
+  os: require('./os')
 };
