@@ -13,10 +13,6 @@ module.exports = fm => path => {
       chdir(absolutePath);
     }
   } catch (err) {
-    if (err.code === 'ENOENT') {
-      throw new OperationError(getErrorMessageByErrorCode(err.code));
-    }
-
-    throw err;
+    throw new OperationError(getErrorMessageByErrorCode(err.code));
   }
 };
