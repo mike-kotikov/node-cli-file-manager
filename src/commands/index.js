@@ -5,5 +5,6 @@ module.exports = {
   cat: require('./cat'),
   add: require('./add'),
   rn: require('./rn'),
-  mv: require('./mv')
+  mv: require('./mv'),
+  cp: require('./cp')
 };
