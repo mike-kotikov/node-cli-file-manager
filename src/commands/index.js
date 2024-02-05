@@ -8,5 +8,7 @@ module.exports = {
   mv: require('./mv'),
   cp: require('./cp'),
   rm: require('./rm'),
-  hash: require('./hash')
+  hash: require('./hash'),
+  compress: require('./compress'),
+  decompress: require('./decompress')
 };
